@@ -96,3 +96,14 @@ browser.commands.onCommand.addListener(async command => {
 		copy(markdownData);
 	}
 });
+
+// Listener for events from shortcuts
+browser.commands.onCommand.addListener(async command => {
+	if (command.suggested_key === 'Ctrl+Shift+Y') {
+		console.log('hols');
+		const completionData = await browser.tabs.executeScript({code: __INJECTIBLE_CODE__});
+		const htmlContent = completionData[0] || '';
+		const markdownData = turndownService.turndown(htmlContent);
+		copy(markdownData);
+	}
+});
